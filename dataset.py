@@ -1,11 +1,12 @@
+from time import sleep
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader, Dataset
 
 class MnistDataset(Dataset):
     def __init__(
         self,
-        image_size,
-        batch_size,
+        image_size : int = 32,
+        batch_size : int = 64,
     ):
         self.image_size = image_size
         self.batch_size = batch_size
@@ -18,9 +19,8 @@ class MnistDataset(Dataset):
             transforms.Normalize((0.1307,), (0.3081,))
         ])
             train_dataset = datasets.MNIST(root='dataset', train=True, transform=train_transform, download=True)
-            train_loader = DataLoader(train_dataset, batch_size=self.batch_size, shuffle=True)
-            image, label = next(iter(train_loader))
-
+            data_loader = DataLoader(train_dataset, batch_size=self.batch_size, shuffle=True)
+            
         else:
             test_transform = transforms.Compose([
             transforms.ToTensor(),
@@ -28,9 +28,13 @@ class MnistDataset(Dataset):
             transforms.Normalize((0.1307,), (0.3081,))
 ])
             test_dataset = datasets.MNIST(root='dataset', train=False, transform=test_transform, download=True)
-            test_loader = DataLoader(test_dataset, batch_size=self.batch_size, shuffle=False)
+            data_loader = DataLoader(test_dataset, batch_size=self.batch_size, shuffle=False)
         
-            image, label = next(iter(test_loader))
-        
-        return image, label
+        return data_loader
+    
+    def __len__(self, train=True):
+        if train:
+            return len(self.__getitem__(train=True))
+        else:
+            return len(self.__getitem__(train=False))
   
