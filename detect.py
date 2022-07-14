@@ -1,11 +1,37 @@
+import torch
+from torch import nn
+
 from model import LeNet5
 from train import ModelTrainer
-from torch import nn
-import torch
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model = LeNet5().to(device)
-criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
-ModelTrainer(model, criterion, optimizer, device, num_epochs=10, batch_size=64).train()
-ModelTrainer(model, criterion, optimizer, device, num_epochs=10, batch_size=64).test()
+
+class ModelDetector:
+    def __init__(self, num_epochs, batch_size, device):
+        self.device = device
+        self.model = LeNet5().to(self.device)
+        self.criterion = nn.CrossEntropyLoss()
+        self.optimizer = torch.optim.SGD(self.model.parameters(), lr=0.01, momentum=0.9)
+        self.num_epochs = num_epochs
+        self.batch_size = batch_size
+
+    def train(self):
+        ModelTrainer(
+            self.model,
+            self.criterion,
+            self.optimizer,
+            self.device,
+            self.num_epochs,
+        ).train()
+
+    def test(self):
+        ModelTrainer(
+            self.model,
+            self.criterion,
+            self.optimizer,
+            self.device,
+            self.num_epochs,
+        ).test()
+
+
+ModelDetector(num_epochs=10, batch_size=64, device="cuda").train()
+ModelDetector(num_epochs=10, batch_size=64, device="cpu").test()
