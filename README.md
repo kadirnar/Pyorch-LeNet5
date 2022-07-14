@@ -9,9 +9,24 @@ Minimal PyTorch implementation of LeNet5
 
 LeNet5 is a convolutional neural network, also known as Multi-Layer Perceptron.
 
- ### Architecture
+### Installing the model
+```
+pip install -r requirements.txt
+```
 
- The network has 5 layers with learnable parameters and hence named Lenet-5. 
+### Training the model
+```
+python train.py
+```
+
+### Testing the model
+```
+python test.py
+```
+
+### Architecture
+
+The network has 5 layers with learnable parameters and hence named Lenet-5. 
 
 <img src="doc/lenet_arch_1.png" alt="Input" width="100">
 
@@ -47,22 +62,6 @@ Here is the final architecture of the Lenet-5 model.
     * FC1: 120 outputs (1x1x120)
     * FC2: 84 outputs (1x1x84)
     * Output: 10 outputs (1x1x10)
-
-
-### Installing the model
-```
-pip install -r requirements.txt
-```
-
-### Training the model
-```
-python train.py
-```
-
-### Testing the model
-```
-python test.py
-```
 
 References:
 - [LeNet5](https://www.datasciencecentral.com/lenet-5-a-classic-cnn-architecture/)
