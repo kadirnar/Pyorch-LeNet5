@@ -1,6 +1,6 @@
 <div align="center">
 <h1>
-Minimal PyTorch implementation of LeNet5
+PyTorch implementation of LeNet5
 </h1>
 <img src="doc/lenet.jpeg" alt="Torchvision" width="800">
 </div>
