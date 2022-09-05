@@ -1,6 +1,6 @@
 import torch
 
-from dataset import MnistDataset
+from utils.dataset import MnistDataset
 
 
 class ModelTrainer:
