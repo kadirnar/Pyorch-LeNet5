@@ -1,0 +1,9 @@
+# Lenet5 🚀 by Kadir Nar, MIT License
+
+#parameters
+nc: 10 # number of classes 
+
+
+# Lenet5 backbone
+backbone:
+# [from, number, module, args]

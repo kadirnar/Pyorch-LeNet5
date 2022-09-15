@@ -1,22 +1,22 @@
 import torch
 
 from utils.dataset import MnistDataset
-
+from models.LeNet.model import LeNet5
 
 class ModelTrainer:
-    def __init__(self, model, criterion, optimizer, device, num_epochs, batch_size):
-        self.model = model
-        self.criterion = criterion
-        self.optimizer = optimizer
-        self.device = device
-        self.num_epochs = num_epochs
-        self.batch_size = batch_size
-        self.train_data_loader = MnistDataset(image_size=32, batch_size=64).__getitem__(train=True)
-        self.test_data_loader = MnistDataset(image_size=32, batch_size=64).__getitem__(train=False)
+    def config(self):
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.model = LeNet5().to(self.device)
+        self.optimizer = torch.optim.Adam(self.model.parameters(), lr=0.001)
+        self.criterion = torch.nn.CrossEntropyLoss()
+        self.num_epochs = 5
+        self.batch_size = 64
+        
 
     def train(self):
+        train_data_loader = MnistDataset().__getitem__(train=True)
         for epoch in range(self.num_epochs):
-            for i, (images, labels) in enumerate(self.train_data_loader):
+            for i, (images, labels) in enumerate(train_data_loader):
                 images = images.to(self.device)
                 labels = labels.to(self.device)
                 self.optimizer.zero_grad()
@@ -31,12 +31,11 @@ class ModelTrainer:
                         )
                     )
 
-        self.model = torch.save(self.model.state_dict(), "model.pt")
 
-    def test(self):
+        test_data_loader = MnistDataset().__getitem__(train=False)
         correct = 0
         total = 0
-        for images, labels in self.test_data_loader:
+        for images, labels in test_data_loader:
             images = images.to(self.device)
             labels = labels.to(self.device)
             outputs = self.model(images)
@@ -46,3 +45,8 @@ class ModelTrainer:
 
         acc = 100 * correct / float(total)
         print("Accuracy of the network on the 10000 test images: {} %".format(acc))
+
+if __name__ == "__main__":
+    trainer = ModelTrainer()
+    trainer.config()
+    trainer.train()
