@@ -1,7 +1,7 @@
 import torch
 
 from utils.dataset import MnistDataset
-from models.LeNet.model import LeNet5
+from models.lenet import LeNet5
 
 class ModelTrainer:
     def config(self):
